@@ -9,6 +9,8 @@ import {
   primaryKey,
   foreignKey,
   boolean,
+  decimal,
+  integer,
 } from 'drizzle-orm/pg-core';
 
 export const user = pgTable('User', {
@@ -168,3 +170,54 @@ export const stream = pgTable(
 );
 
 export type Stream = InferSelectModel<typeof stream>;
+
+export const marketAnalysis = pgTable('MarketAnalysis', {
+  id: uuid('id').primaryKey().notNull().defaultRandom(),
+  userId: uuid('userId')
+    .notNull()
+    .references(() => user.id),
+  market: varchar('market', { enum: ['crypto', 'stocks', 'forex', 'metals', 'commodities'] }).notNull(),
+  symbol: varchar('symbol', { length: 20 }).notNull(),
+  timeframe: varchar('timeframe', { enum: ['1h', '4h', '1d', '1w'] }).notNull(),
+  currentPrice: decimal('currentPrice', { precision: 20, scale: 8 }).notNull(),
+  
+  // Technical Analysis
+  technicalTrend: varchar('technicalTrend', { enum: ['bullish', 'bearish', 'neutral'] }).notNull(),
+  supportLevel: decimal('supportLevel', { precision: 20, scale: 8 }).notNull(),
+  resistanceLevel: decimal('resistanceLevel', { precision: 20, scale: 8 }).notNull(),
+  rsi: decimal('rsi', { precision: 5, scale: 2 }).notNull(),
+  macdSignal: varchar('macdSignal', { enum: ['buy', 'sell', 'neutral'] }).notNull(),
+  
+  // Signal
+  signalAction: varchar('signalAction', { 
+    enum: ['strong_buy', 'buy', 'hold', 'sell', 'strong_sell'] 
+  }).notNull(),
+  signalConfidence: integer('signalConfidence').notNull(),
+  entryPrice: decimal('entryPrice', { precision: 20, scale: 8 }).notNull(),
+  stopLoss: decimal('stopLoss', { precision: 20, scale: 8 }).notNull(),
+  targetPrice: decimal('targetPrice', { precision: 20, scale: 8 }).notNull(),
+  reasoning: text('reasoning').notNull(),
+  
+  // Market Sentiment
+  marketSentiment: varchar('marketSentiment', { enum: ['positive', 'negative', 'neutral'] }).notNull(),
+  fearGreedIndex: integer('fearGreedIndex').notNull(),
+  
+  createdAt: timestamp('createdAt').notNull().defaultNow(),
+});
+
+export type MarketAnalysis = InferSelectModel<typeof marketAnalysis>;
+
+export const marketWatchlist = pgTable('MarketWatchlist', {
+  id: uuid('id').primaryKey().notNull().defaultRandom(),
+  userId: uuid('userId')
+    .notNull()
+    .references(() => user.id),
+  market: varchar('market', { enum: ['crypto', 'stocks', 'forex', 'metals', 'commodities'] }).notNull(),
+  symbol: varchar('symbol', { length: 20 }).notNull(),
+  alertPrice: decimal('alertPrice', { precision: 20, scale: 8 }),
+  alertType: varchar('alertType', { enum: ['above', 'below'] }),
+  isActive: boolean('isActive').notNull().default(true),
+  createdAt: timestamp('createdAt').notNull().defaultNow(),
+});
+
+export type MarketWatchlist = InferSelectModel<typeof marketWatchlist>;

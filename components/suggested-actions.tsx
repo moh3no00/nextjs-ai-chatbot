@@ -20,19 +20,19 @@ function PureSuggestedActions({
 }: SuggestedActionsProps) {
   const suggestedActions = [
     {
-      title: 'What are the advantages',
-      label: 'of using Next.js?',
-      action: 'What are the advantages of using Next.js?',
+      title: 'Analyze Bitcoin market',
+      label: 'and provide trading signals',
+      action: 'Analyze Bitcoin market and provide detailed trading signals with entry, stop loss, and target levels',
     },
     {
-      title: 'Write code to',
-      label: `demonstrate djikstra's algorithm`,
-      action: `Write code to demonstrate djikstra's algorithm`,
+      title: 'Compare AAPL vs GOOGL',
+      label: 'stock performance',
+      action: 'Compare Apple and Google stock performance with fundamental and technical analysis',
     },
     {
-      title: 'Help me write an essay',
-      label: `about silicon valley`,
-      action: `Help me write an essay about silicon valley`,
+      title: 'Analyze EUR/USD forex',
+      label: 'with AI insights',
+      action: 'Analyze EUR/USD forex pair with comprehensive technical and fundamental analysis',
     },
     {
       title: 'What is the weather',
