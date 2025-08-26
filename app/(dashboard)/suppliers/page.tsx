@@ -1,0 +1,54 @@
+import { Metadata } from 'next';
+import { auth } from '@/app/(auth)/auth';
+import { redirect } from 'next/navigation';
+import { SuppliersTable } from '@/components/suppliers/suppliers-table';
+import { SupplierForm } from '@/components/suppliers/supplier-form';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
+export const metadata: Metadata = {
+  title: 'مدیریت تامین‌کنندگان - سیستم مدیریت قطعات یدکی نیسان',
+  description: 'ثبت، ویرایش و مدیریت تامین‌کنندگان',
+};
+
+export default async function SuppliersPage() {
+  const session = await auth();
+
+  if (!session) {
+    redirect('/login');
+  }
+
+  return (
+    <div className="p-6 space-y-6">
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            مدیریت تامین‌کنندگان
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400 mt-1">
+            ثبت، ویرایش و مدیریت تامین‌کنندگان و مخاطبین آن‌ها
+          </p>
+        </div>
+      </div>
+
+      <Tabs defaultValue="list" className="space-y-4">
+        <TabsList>
+          <TabsTrigger value="list">لیست تامین‌کنندگان</TabsTrigger>
+          <TabsTrigger value="add">ثبت تامین‌کننده جدید</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="list" className="space-y-4">
+          <SuppliersTable />
+        </TabsContent>
+
+        <TabsContent value="add" className="space-y-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              ثبت تامین‌کننده جدید
+            </h2>
+            <SupplierForm />
+          </div>
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+}
