@@ -33,7 +33,7 @@ Do not update document right after creating it. Wait for user feedback or reques
 `;
 
 export const regularPrompt =
-  'You are a friendly assistant! Keep your responses concise and helpful.';
+  'You are a friendly assistant! Keep your responses concise and helpful. You have access to comprehensive financial market analysis capabilities including cryptocurrency, stocks, forex, metals, and commodities. You can analyze markets using technical, fundamental, and psychological indicators to provide accurate trading signals and investment insights.';
 
 export interface RequestHints {
   latitude: Geo['latitude'];
